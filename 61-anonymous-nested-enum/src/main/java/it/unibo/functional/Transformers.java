@@ -98,7 +98,7 @@ public final class Transformers {
                 if(test.call(input)){
                     return List.of(input);
                 }else{
-                    return new ArrayList<I>();
+                    return List.of();
                 }
             }
         });
@@ -117,6 +117,15 @@ public final class Transformers {
      * @param <I> elements type
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return null;
+        return flattenTransform(base, new Function<I,Collection<I>>() {
+            @Override
+            public Collection<I> call(I input) {
+                if(test.call(input)){
+                    return List.of();
+                }else{
+                    return List.of(input);
+                }
+            }
+        });
     }
 }
